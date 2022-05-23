@@ -1,7 +1,7 @@
-library(raster)
-library(dplyr)
-library(tidyr)
-library(sf)
+#Using Package Management package to load all library dependencies
+
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(raster, dplyr, tidyr, sf)
 
 load("Intermediate/shapefiles.RData")
 

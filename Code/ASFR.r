@@ -1,18 +1,7 @@
-library(haven)
-library(sf)
-library(tidyr)
-library(dplyr)
-library(gstat)
-library(ggplot2)
-library(kriging)
-library(sjPlot)
-library(raster)
-library(stars)
-library(foreign)
-library(survey)
-library(wpp2019)
-library(automap)
-library(mgcv)
+#Using Package Management package to load all library dependencies
+
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(haven, sf, tidyr, dplyr, gstat, ggplot2, kriging, sjPlot, raster, stars, foreign, survey, wpp2019, automap, mgcv)
 
 load("Intermediate/shapefiles.RData")
 load("Intermediate/WorldPop.RData")

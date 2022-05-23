@@ -1,3 +1,9 @@
+#Using Package Management package to load all library dependencies
+
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(sf, dplyr, tidyr)
+
+
 library(sf)
 library(dplyr)
 library(tidyr)

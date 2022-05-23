@@ -1,25 +1,7 @@
-library(tidyr)
-library(dplyr)
-library(ggplot2)
-library(haven)
-library(ggjoy)
-library(ggridges)
-library(viridis)
-library(sf)
-library(mgcv)
-library(spdep)
-library(spaMM)
-library(sjPlot)
-library(stringr)
-library(readr)
-library(forcats)
-library(rgdal)
-library(tidyverse)
-library(automap)
-library(gstat)
-library(gridExtra)
-library(grid)
-library(ggpubr)
+#Using Package Management package to load all library dependencies
+
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyr, dplyr, ggplot2, haven, ggjoy, viridis, sf, mgcv, spdep, spaMM, sjPlot, stringr, readr, forcats, rgdal, tidyverse, automap, gstat, gridExtra, grid, ggpubr)
 
 load("Intermediate/shapefiles.RData")
 load("Intermediate/WorldPop.RData")
@@ -33,8 +15,6 @@ BirthSAS <- read_sas("Data/CDC_Data/NGBR7AFL.SAS7BDAT",
 
 HouseholdSAS <- read_sas("Data/CDC_Data/NGHR7AFL.SAS7BDAT",
                          NULL)
-
-
 #Case ID NUmber
 caseID <- BirthSAS$CASEID
 

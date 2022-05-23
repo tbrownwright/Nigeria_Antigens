@@ -1,10 +1,7 @@
-library(mgcv)
-library(tidyverse)
-library(dplyr)
-library(raster)
-library(sf)
-library(ggplot2)
-library(ggrepel)
+#Using Package Management package to load all library dependencies
+
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(mgcv, tidyverse, dplyr, raster, sf, ggplot2, ggrepel)
 
 load("Intermediate/cdc_import_data.RData")
 load("Intermediate/WorldPop.RData")
