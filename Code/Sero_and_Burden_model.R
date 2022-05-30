@@ -9,10 +9,14 @@ load("Intermediate/shapefiles.RData")
 load("Intermediate/asfr.RData")
 load("Intermediate/risky_births.RData")
 
+#GAM models for each antigen, using logit link functions
+
 gam_total_tet <- gam(TetSeroPercentage ~ s(X,Y) + Age + X * Age +Y*Age, family = binomial(link = "logit"), data = total_age_df)
 gam_total_rub <- gam(RubSeroPercentage ~ s(X,Y) + Age + X * Age +Y*Age, family = binomial(link = "logit"), data = total_age_df)
 gam_total_mea <- gam(MeaSeroPercentage ~ s(X,Y) + Age + X * Age +Y*Age, family = binomial(link = "logit"), data = total_age_df)
 gam_total_dip <- gam(DipSeroPercentage ~s(X, Y) + Age + X * Age + Y * Age, family = binomial(link = "logit"), data = total_age_df)
+
+#Specifying the inverse link functions in order to generate appropriate 95% CI later on
 
 fam_rub_ttl <- family(gam_total_rub)
 fam_tet_ttl <- family(gam_total_tet)
@@ -22,8 +26,10 @@ ilink_rub_ttl <- fam_rub_ttl$linkinv
 ilink_tet_ttl <- fam_tet_ttl$linkinv
 ilink_mea_ttl <- fam_mea_ttl$linkinv
 ilink_dip_ttl <- fam_dip_ttl$linkinv
+
 ages_total <- rep(0:44,1)
 
+#Ensure imported data have unique ID to join with other datasets later on
 risky_under25 <- risky_under25%>%
   mutate(uniqueID = paste(x, y, by = " "))%>%
   select(risk, uniqueID)
@@ -68,8 +74,9 @@ df_mat_8_total <- df_mat_8_total%>%
 
 colnames(df_mat_8_total) <- c("asfr", "uniqueID")
 
-grd_total <- c()
+#Generate grid for predicted outcomes
 
+grd_total <- c()
 
 for(i in 1:length(ages_total)){
   
@@ -89,12 +96,15 @@ for(i in 1:length(ages_total)){
   
 }
 
+#Specifying loop parameters
 models_total <- c("gam_total_tet", "gam_total_rub", "gam_total_mea", "gam_total_dip")
 
 antigens <- c("tet", "rub", "mea", "dip")
 
 family_total <- c("fam_tet_ttl", "fam_rub_ttl", "fam_mea_ttl", "fam_dip_ttl")
 ilink_total <- c("ilink_tet_ttl", "ilink_rub_ttl", "ilink_mea_ttl", "ilink_dip_ttl")
+
+#Using the GAM models, predicting the seroprevalence of each antigen for each age
 
 for(i in 1:length(antigens)){
   
@@ -117,24 +127,24 @@ overall_sero_total <- pred.total_mea_0
 
 type_predict <- c("fit", "UC", "LC")
 
+#Generate individual object for each predicted value 
 for(k in 1:length(type_predict)){
   
   if(k == 1){
-    
+    #Fitted value
     for(j in 1:length(antigens)){
       
       for (i in 1:length(ages_total)){
         
         temp_overall <- get(paste("pred.total_", antigens[j], "_", ages_total[i],sep =""))$fit
         assign(paste0(antigens[j], "_", type_predict[k], "_", ages_total[i]), temp_overall)
-        #  
-        # overall_sero_total <- cbind(overall_sero_total, get(paste0(antigens[j], "_", type_predict[k], "_", ages_total[i])))
         
       }  
       
     }}
   
   else if(k ==2){
+    #UC bound
     
     for(j in 1:length(antigens)){
       
@@ -150,6 +160,7 @@ for(k in 1:length(type_predict)){
   }
   
   else{
+    #LC Bound
     
     for(j in 1:length(antigens)){
       
@@ -169,9 +180,11 @@ age_ranges <- c(15,20, 20, 25, 25, 30, 30, 35, 35, 40, 40, 45)
 
 XY <- pred.total_mea_0[,1:2]
 
-antigens
-
 antigens_names <- c("Tetanus", "Rubella", "Measles", "Diphtheria")
+
+#Calculating the burden and pop risk for each antigen, by joining with the appropriate dataframes
+#Pop risk calculation for each antigen is different, hence the if statement for each antigen index i
+#Each age group generates an unique object per antigen
 
 for(i in 1:length(antigens)){
   
@@ -546,7 +559,7 @@ for(i in 1:length(antigens)){
 
 age_groups <- c("15_20", "20_25", "25_30", "30_35", "35_40", "40_45")
 
-
+#Combine age group results to generate one df for each antigen
 for(i in 1:length(antigens)){
   
   final_data_df <- as.data.frame(matrix(ncol = 16))
@@ -693,7 +706,7 @@ for(i in 1:length(antigens)){
   
 }
 
-
+#Spatial interpolation for State
 
 for(i in 1:length(antigens)){
   
@@ -725,6 +738,9 @@ for(i in 1:length(antigens)){
   
 }
 
+#Spatial interpolation for LGA
+#Note, due to internal memory limits, spatial interpolation for LGA must be done by age group antigen objects instead of antigen objects
+#This could be better optimized if ran on dedicated server
 
 for(i in 1:length(antigens)){
   
@@ -796,6 +812,8 @@ for (i in 1:length(antigens)){
 
 write.csv(final_adm1, "Output/PopRisk_State.csv")
 write.csv(final_adm2, "Output/PopRisk_LGA.csv")
+
+#Repeat for Children, which are only appropriate for Measles and Diptheria
 
 antigens_children <- c("mea", "dip")
 
