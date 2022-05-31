@@ -810,8 +810,21 @@ for (i in 1:length(antigens)){
     filter(!is.na(NAME_2))
 }
 
+adm1_code <- nigeria_polygon_ad1%>%
+  as.data.frame()%>%
+  dplyr::select(GID_1, NAME_1)
+
+adm2_code <- nigeria_adm2%>%
+  as.data.frame()%>%
+  dplyr::select(GID_2, NAME_2)
+
+final_adm1 <- left_join(adm1_code, final_adm1, by = "NAME_1")
+final_adm2 <- left_join(adm2_code, final_adm2, by = "NAME_2")
+
 write.csv(final_adm1, "Output/PopRisk_State.csv")
 write.csv(final_adm2, "Output/PopRisk_LGA.csv")
+
+
 
 #Repeat for Children, which are only appropriate for Measles and Diptheria
 
@@ -1044,6 +1057,9 @@ for (i in 1:length(antigens_children)){
   final_children_adm2 <- rbind(final_children_adm2, temp_adm2_anti)%>%
     filter(!is.na(NAME_2))
 }
+
+final_children_adm1 <- left_join(adm1_code, final_children_adm1, by = "NAME_1")
+final_children_adm2 <- left_join(adm2_code, final_children_adm2, by = "NAME_2")
 
 write.csv(final_children_adm1, "Output/Children_State.csv")
 write.csv(final_children_adm2, "Output/Children_LGA.csv")
