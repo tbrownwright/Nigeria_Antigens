@@ -32,45 +32,45 @@ ages_total <- rep(0:44,1)
 #Ensure imported data have unique ID to join with other datasets later on
 risky_under25 <- risky_under25%>%
   mutate(uniqueID = paste(x, y, by = " "))%>%
-  select(risk, uniqueID)
+  dplyr::select(risk, uniqueID)
 
 risky_over25 <- risky_over25%>%
   mutate(uniqueID = paste(x, y, by = " "))%>%
-  select(risk, uniqueID)
+  dplyr::select(risk, uniqueID)
 
 df_mat_3_total <- df_mat_3_total%>%
   mutate(uniqueID = paste(x, y, by = " "))%>%
-  select(asfr, uniqueID)
+  dplyr::select(asfr, uniqueID)
 
 colnames(df_mat_3_total) <- c("asfr", "uniqueID")
 
 df_mat_4_total  <- df_mat_4_total%>%
   mutate(uniqueID = paste(x, y, by = " "))%>%
-  select(asfr, uniqueID)
+  dplyr::select(asfr, uniqueID)
 
 colnames(df_mat_4_total) <- c("asfr", "uniqueID")
 
 df_mat_5_total  <- df_mat_5_total%>%
   mutate(uniqueID = paste(x, y, by = " "))%>%
-  select(asfr, uniqueID)
+  dplyr::select(asfr, uniqueID)
 
 colnames(df_mat_5_total ) <- c("asfr", "uniqueID")
 
 df_mat_6_total <- df_mat_6_total%>%
   mutate(uniqueID = paste(x, y, by = " "))%>%
-  select(asfr, uniqueID)
+  dplyr::select(asfr, uniqueID)
 
 colnames(df_mat_6_total) <- c("asfr", "uniqueID")
 
 df_mat_7_total <- df_mat_7_total%>%
   mutate(uniqueID = paste(x, y, by = " "))%>%
-  select(asfr, uniqueID)
+  dplyr::select(asfr, uniqueID)
 
 colnames(df_mat_7_total) <- c("asfr", "uniqueID")
 
 df_mat_8_total <- df_mat_8_total%>%
   mutate(uniqueID = paste(x, y, by = " "))%>%
-  select(asfr, uniqueID)
+  dplyr::select(asfr, uniqueID)
 
 colnames(df_mat_8_total) <- c("asfr", "uniqueID")
 
@@ -731,7 +731,7 @@ for(i in 1:length(antigens)){
               pop_risk_LC_adm1 = sum(pop_risk_LC),
               total_pop = sum(population))%>%
     as.data.frame()%>%
-    select(-geometry)
+    dplyr::select(-geometry)
   
   assign(paste0(antigens[i], "_adm_1"), temp_sum_adm1_summ)
   
@@ -775,7 +775,7 @@ for(i in 1:length(antigens)){
                 pop_risk_LC_adm2 = sum(pop_risk_LC),
                 total_pop = sum(population))%>%
       as.data.frame()%>%
-      select(-geometry)
+      dplyr::select(-geometry)
     
     temp_antigens <- rbind(temp_antigens, temp_sum_age_adm2_sum)
     
@@ -975,7 +975,7 @@ for(i in 1:length(antigens_children)){
               pop_risk_LC_adm1 = sum(pop_risk_LC),
               total_pop = sum(population))%>%
     as.data.frame()%>%
-    select(-geometry)
+    dplyr::select(-geometry)
   
   assign(paste0(antigens_children[i], "_children_adm_1"), temp_sum_adm1_summ)
   
@@ -1012,7 +1012,7 @@ for(i in 1:length(antigens_children)){
                 pop_risk_LC_adm2 = sum(pop_risk_LC),
                 total_pop = sum(population))%>%
       as.data.frame()%>%
-      select(-geometry)
+      dplyr::select(-geometry)
     
     temp_antigens <- rbind(temp_antigens, temp_sum_age_adm2_sum)
     

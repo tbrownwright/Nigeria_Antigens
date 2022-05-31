@@ -51,7 +51,7 @@ mother_geo_sum <- mother_geo%>%
   mutate(age_under25 = ifelse(Age <25 , 0, 1))
 
 mother_geo_sum_1 <- mother_geo_sum%>%
-  select(-age_group)
+  dplyr::select(-age_group)
 
 total_age_df <- rbind(child_geo_sum, mother_geo_sum_1)
 
@@ -74,7 +74,7 @@ total_age_df <- total_age_df%>%
   filter(!is.na(LONGNUM))%>%
   mutate(X= LONGNUM)%>%
   mutate(Y=LATNUM)%>%
-  select(-LONGNUM, -LATNUM)
+  dplyr::select(-LONGNUM, -LATNUM)
 
 total_age_df_sf <- st_as_sf(total_age_df, coords = c("X", "Y"), crs = "+proj=longlat +datum=WGS84 +no_defs")
 

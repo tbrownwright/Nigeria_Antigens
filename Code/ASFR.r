@@ -13,7 +13,8 @@ individual_SAS$id <- seq.int(nrow(individual_SAS))
 ## note - keeping v005, v021, and v022 because needed to account for sampling
 
 ## Get births
-individual_SAS_sm1 <- individual_SAS %>% select(id, V001, V002, V003, V005, V021, V022, V008,  V011, paste("B3_0", 1:9, sep = ""), paste("B3_", 10:20, sep = ""))
+individual_SAS_sm1 <- individual_SAS %>% 
+  dplyr::select(id, V001, V002, V003, V005, V021, V022, V008,  V011, paste("B3_0", 1:9, sep = ""), paste("B3_", 10:20, sep = ""))
 
 individual_SAS_sm1 <- as.data.frame(individual_SAS_sm1)%>%
   mutate(uniqueID = paste0("C", V001, "H", V002, "R", V003))
@@ -25,10 +26,10 @@ births <- reshape::melt(individual_SAS_sm1, id = c("id", "V001", "V002", "V003",
   mutate(agegroup = as.integer( (B3 - V011) /60)) %>% #mothers agegroup; v011 mom dob CMC
   filter(agegroup > 2) %>% #limit dataset to mothers 15 years and older (i.e., age group at least 3)
   filter(child_age <= 36) %>% #limit dataset to only births in last 36 months
-  select(id, uniqueID, agegroup, V001, V002, V005, V003, V021, V022)%>%
+  dplyr::select(id, uniqueID, agegroup, V001, V002, V005, V003, V021, V022)%>%
   mutate(birth =1, exposure=0)
 
-individual_SAS_sm2 <- individual_SAS %>% select(id, V001, V002, V003, V008, V011, V005, V021, V022)
+individual_SAS_sm2 <- individual_SAS %>% dplyr::select(id, V001, V002, V003, V008, V011, V005, V021, V022)
 
 individual_SAS_sm2 <- as.data.frame(individual_SAS_sm2)%>%
   mutate(uniqueID = paste0("C", V001, "H", V002, "R", V003))
@@ -40,14 +41,14 @@ exposure.tmp <- individual_SAS_sm2 %>%
          upper_exposure = ifelse(exposure >= 36, 36, exposure), #upper age exposure
          lower_exposure = ifelse(exposure < 36 & agegroup >=4, 36-exposure, 0)) %>% #lower age exposure
   filter(agegroup > 2) %>% #limit to ages 15-49
-  select(-V008, -V011, -survey_age) 
+  dplyr::select(-V008, -V011, -survey_age) 
 
 upper.exposure <- exposure.tmp %>% 
-  select(-lower_exposure, -exposure) %>% rename(exposure = upper_exposure) 
+  dplyr::select(-lower_exposure, -exposure) %>% rename(exposure = upper_exposure) 
 
 lower.exposure <- exposure.tmp %>%
   filter(lower_exposure !=0) %>% #limit dataset to only rows where there is some exposure in lower age group
-  select(-upper_exposure, -exposure) %>% rename(exposure = lower_exposure) %>%
+  dplyr::select(-upper_exposure, -exposure) %>% rename(exposure = lower_exposure) %>%
   mutate(agegroup = agegroup-1)
 
 exposure <- rbind(upper.exposure, lower.exposure) %>% 
@@ -55,7 +56,7 @@ exposure <- rbind(upper.exposure, lower.exposure) %>%
   mutate(birth=0) 
 
 exposure <- exposure%>%
-  select(id, uniqueID, agegroup, V001, V002, V005, V003, V021, V022, birth, exposure)
+  dplyr::select(id, uniqueID, agegroup, V001, V002, V005, V003, V021, V022, birth, exposure)
 
 combine <- rbind(births, exposure) 
 
