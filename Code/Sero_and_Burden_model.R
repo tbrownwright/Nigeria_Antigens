@@ -824,8 +824,24 @@ final_adm2 <- left_join(adm2_code, final_adm2, by = "NAME_2")
 write.csv(final_adm1, "Output/PopRisk_State.csv")
 write.csv(final_adm2, "Output/PopRisk_LGA.csv")
 
+adm1_colnames <- colnames(final_adm1)
 
+adm1_colnames <- adm1_colnames[5:14]
 
+final_adm1_wide <- tidyr::pivot_wider(final_adm1, id_cols = NAME_1, names_from = c(age_group, antigen), names_sep = "_", values_from = all_of(adm1_colnames))
+
+final_adm1_wide <- left_join(adm1_code, final_adm1_wide, by = "NAME_1")
+
+adm2_colnames <- colnames(final_adm2)
+
+adm2_colnames <- adm2_colnames[5:14]
+
+final_adm2_wide <- tidyr::pivot_wider(final_adm2, id_cols = NAME_2, names_from = c(age_group, antigen), names_sep = "_", values_from = all_of(adm2_colnames), values_fn = length)
+
+final_adm2_wide <- left_join(adm2_code, final_adm2_wide, by = "NAME_2")
+
+write.csv(final_adm1_wide, "Output/PopRisk_State_Wide.csv")
+write.csv(final_adm2_wide, "Output/PopRisk_LGA.csv")
 #Repeat for Children, which are only appropriate for Measles and Diptheria
 
 antigens_children <- c("mea", "dip")
