@@ -176,6 +176,8 @@ for(k in 1:length(type_predict)){
   }
 }
 
+save.image(file = "Intermediate/figures_prep.RData")
+
 age_ranges <- c(15,20, 20, 25, 25, 30, 30, 35, 35, 40, 40, 45)
 
 XY <- pred.total_mea_0[,1:2]
@@ -741,6 +743,7 @@ for(i in 1:length(antigens)){
 #Spatial interpolation for LGA
 #Note, due to internal memory limits, spatial interpolation for LGA must be done by age group antigen objects instead of antigen objects
 #This could be better optimized if ran on dedicated server
+#Expect multiple hours (4+ hours if ran on traditional laptops)
 
 for(i in 1:length(antigens)){
   
@@ -841,7 +844,7 @@ final_adm2_wide <- tidyr::pivot_wider(final_adm2, id_cols = NAME_2, names_from =
 final_adm2_wide <- left_join(adm2_code, final_adm2_wide, by = "NAME_2")
 
 write.csv(final_adm1_wide, "Output/PopRisk_State_Wide.csv")
-write.csv(final_adm2_wide, "Output/PopRisk_LGA.csv")
+write.csv(final_adm2_wide, "Output/PopRisk_LGA_Wide.csv")
 #Repeat for Children, which are only appropriate for Measles and Diptheria
 
 antigens_children <- c("mea", "dip")
@@ -1020,7 +1023,7 @@ for(i in 1:length(antigens_children)){
   
   for(j in 1:length(ages_children)){
     
-    temp_sum <- get(paste0(antigens_children[i], "_total_df"))
+    temp_sum <- get(paste0(antigens_children[i], "_children_total_df"))
     
     temp_sum_age <- temp_sum%>%
       filter(age_group == ages_children[j])
@@ -1079,3 +1082,22 @@ final_children_adm2 <- left_join(adm2_code, final_children_adm2, by = "NAME_2")
 
 write.csv(final_children_adm1, "Output/Children_State.csv")
 write.csv(final_children_adm2, "Output/Children_LGA.csv")
+
+adm1_colnames_children <- colnames(final_children_adm1)
+
+adm1_colnames_children <- adm1_colnames_children[5:11]
+
+final_children_adm1_wide <- tidyr::pivot_wider(final_children_adm1, id_cols = NAME_1, names_from = c(age_group, antigen), names_sep = "_", values_from = all_of(adm1_colnames_children))
+
+final_children_adm1_wide <- left_join(adm1_code, final_children_adm1_wide, by = "NAME_1")
+
+adm2_colnames_children <- colnames(final_children_adm2)
+
+adm2_colnames_children <- adm2_colnames_children[5:11]
+
+final_children_adm2_wide <- tidyr::pivot_wider(final_children_adm2, id_cols = NAME_2, names_from = c(age_group, antigen), names_sep = "_", values_from = all_of(adm2_colnames_children), values_fn = length)
+
+final_children_adm2_wide <- left_join(adm2_code, final_children_adm2_wide, by = "NAME_2")
+
+write.csv(final_children_adm1_wide, "Output/Children_PopRisk_State_Wide.csv")
+write.csv(final_children_adm2_wide, "Output/Children_PopRisk_LGA_Wide.csv")
