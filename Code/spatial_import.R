@@ -19,4 +19,6 @@ nigeria <-  sf::read_sf("Data/ShapeFiles/NGGE7AFL.shp")
 
 nigeria_polygon <- read_sf("Data/ShapeFiles/NGA_adm0.shp")
 
-save(nigeria_polygon_ad1, nigeria_adm2, nigeria, nigeria_polygon, file = "Intermediate/shapefiles.RData")
+nigeria_polygon_sp <- maptools::readShapeSpatial("Data/ShapeFiles/NGA_adm0.shp")
+
+save(nigeria_polygon_ad1, nigeria_adm2, nigeria, nigeria_polygon, nigeria_polygon_sp, file = "Intermediate/shapefiles.RData")
