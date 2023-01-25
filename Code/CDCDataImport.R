@@ -24,7 +24,8 @@ child_geo_sum <- Child_geo%>%
   mutate(TetSeroPercentage = TetSero/ageCount)%>%
   mutate(RubSeroPercentage = RubSero/ageCount)%>%
   mutate(MeaSeroPercentage = MeaSero/ageCount)%>%
-  mutate(DipSeroPercentage = DipSero/ageCount)
+  mutate(DipSeroPercentage = DipSero/ageCount)%>%
+  mutate(age_under25 = ifelse(Age <25 , 0, 1))
 
 #Mother data Import
 

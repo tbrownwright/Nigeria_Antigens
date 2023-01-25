@@ -2,7 +2,8 @@ if(!require("pacman")) install.packages("pacman")
 pacman::p_load(mgcv, tidyverse, dplyr, raster, sf, ggplot2, ggrepel, ggpubr)
 
 load("Intermediate/figures_prep.RData")
-
+load(file = "Intermediate/spatial_DHS.RData")
+load(file = "Intermediate/foi_data.RData")
 
 tiff_0_1_sum <- tiff_0_f_df_complete
 tiff_0_1_sum$age0 <- tiff_0_f_df_complete$nga_f_0_2020 + tiff_0_m_df_complete$nga_m_0_2020
@@ -216,7 +217,7 @@ for(i in 1:length(antigens)){
         temp_plot <- ggplot()+
           geom_tile(data = temp_df_XY, aes(x = X, y = Y, fill = temp_rowmeans), alpha = 0.9)+
           geom_polygon(data = nigeria_polygon_sp, aes(x=long, y=lat, z=group), colour="gray40", fill=NA, cex=0.25)+
-          scale_fill_gradientn(name ="Proportion Seropositive",
+          scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, \n", age_ranges[j*2-1], "-", age_ranges[j*2], " Age Old"),
                                colours = terrain.colors(5),
                                limits = c(0.15, 1),
                                na.value = "white")+
@@ -239,7 +240,7 @@ for(i in 1:length(antigens)){
         
         assign(paste0(antigens[i],"_",age_ranges[j*2-1], "_", age_ranges[j*2]), temp_plot)
         
-        #ggsave(paste0(antigens[i], "_", age_ranges[j*2-1], "_", age_ranges[j*2],".png"))
+        ggsave(paste0("Figures/FourAntigens/Maps/",antigens[i], "_", age_ranges[j*2-1], "_", age_ranges[j*2],".pdf"), device = "pdf", width = 8, height = 6, unit = "in")
         
       } else if(i == 2){
         
@@ -252,7 +253,7 @@ for(i in 1:length(antigens)){
           temp_plot <- ggplot()+
             geom_tile(data = temp_df_XY, aes(x = X, y = Y, fill = temp_rowmeans), alpha = 0.9)+
             geom_polygon(data = nigeria_polygon_sp, aes(x=long, y=lat, z=group), colour="gray40", fill=NA, cex=0.25)+
-            scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, ", age_ranges[j*2-1], "-", age_ranges[j*2], "Age Old"),
+            scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, \n", age_ranges[j*2-1], "-", age_ranges[j*2], "Age Old"),
                                  colours = terrain.colors(5),
                                  limits = c(0.15, 1),
                                  na.value = "white")+
@@ -273,7 +274,8 @@ for(i in 1:length(antigens)){
           
           assign(paste0(antigens[i],"_",age_ranges[j*2-1], "_", age_ranges[j*2]), temp_plot)
           
-          #ggsave(paste0(antigens[i], "_", age_ranges[j*2-1], "_", age_ranges[j*2],".png"))
+          ggsave(paste0("Figures/FourAntigens/Maps/",antigens[i], "_", age_ranges[j*2-1], "_", age_ranges[j*2],".pdf"), device = "pdf", width = 8, height = 6, unit = "in")
+          
           
         } else{
           
@@ -284,7 +286,7 @@ for(i in 1:length(antigens)){
           temp_plot <- ggplot()+
             geom_tile(data = temp_df_XY, aes(x = X, y = Y, fill = temp_rowmeans), alpha = 0.9)+
             geom_polygon(data = nigeria_polygon_sp, aes(x=long, y=lat, z=group), colour="gray40", fill=NA, cex=0.25)+
-            scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, ", age_ranges[j*2-1], "-", age_ranges[j*2], "Age Old"),
+            scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, \n", age_ranges[j*2-1], "-", age_ranges[j*2], "Age Old"),
                                  colours = terrain.colors(5),
                                  limits = c(0.15, 1),
                                  na.value = "white")+
@@ -305,7 +307,8 @@ for(i in 1:length(antigens)){
           
           assign(paste0(antigens[i],"_",age_ranges[j*2-1], "_", age_ranges[j*2]), temp_plot)
           
-          #ggsave(paste0(antigens[i], "_", age_ranges[j*2-1], "_", age_ranges[j*2],".png"))
+          ggsave(paste0("Figures/FourAntigens/Maps/",antigens[i], "_", age_ranges[j*2-1], "_", age_ranges[j*2],".pdf"), device = "pdf", width = 8, height = 6, unit = "in")
+          
           
         }        
         
@@ -319,7 +322,7 @@ for(i in 1:length(antigens)){
         temp_plot <- ggplot()+
           geom_tile(data = temp_df_XY, aes(x = X, y = Y, fill = temp_rowmeans), alpha = 0.9)+
           geom_polygon(data = nigeria_polygon_sp, aes(x=long, y=lat, z=group), colour="gray40", fill=NA, cex=0.25)+
-          scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, ", age_ranges[j*2-1], "-", age_ranges[j*2], " Age Old"),
+          scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, \n", age_ranges[j*2-1], "-", age_ranges[j*2], " Age Old"),
                                colours = terrain.colors(5),
                                limits = c(0.15, 1),
                                na.value = "white")+
@@ -340,7 +343,8 @@ for(i in 1:length(antigens)){
         
         assign(paste0(antigens[i],"_",age_ranges[j*2-1], "_", age_ranges[j*2]), temp_plot)
         
-        #ggsave(paste0(antigens[i], "_", age_ranges[j*2-1], "_", age_ranges[j*2],".png"))
+        ggsave(paste0("Figures/FourAntigens/Maps/",antigens[i], "_", age_ranges[j*2-1], "_", age_ranges[j*2],".pdf"), device = "pdf", width = 8, height = 6, unit = "in")
+        
         
       } else{
         
@@ -353,7 +357,7 @@ for(i in 1:length(antigens)){
           temp_plot <- ggplot()+
             geom_tile(data = temp_df_XY, aes(x = X, y = Y, fill = temp_rowmeans), alpha = 0.9)+
             geom_polygon(data = nigeria_polygon_sp, aes(x=long, y=lat, z=group), colour="gray40", fill=NA, cex=0.25)+
-            scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, ", age_ranges[j*2-1], "-", age_ranges[j*2], " Age Old"),
+            scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, \n", age_ranges[j*2-1], "-", age_ranges[j*2], " Age Old"),
                                  colours = terrain.colors(5),
                                  limits = c(0.15, 1),
                                  na.value = "white")+
@@ -374,7 +378,8 @@ for(i in 1:length(antigens)){
           
           assign(paste0(antigens[i],"_",age_ranges[j*2-1], "_", age_ranges[j*2]), temp_plot)
           
-          #ggsave(paste0(antigens[i], "_", age_ranges[j*2-1], "_", age_ranges[j*2],".png"))
+          ggsave(paste0("Figures/FourAntigens/Maps/",antigens[i], "_", age_ranges[j*2-1], "_", age_ranges[j*2],".pdf"), device = "pdf", width = 8, height = 6, unit = "in")
+          
           
         }
         
@@ -426,4 +431,70 @@ text.1014 <- text_grob("10-14", just = c("right", "center"), color = "black", si
 text.under <- text_grob("Children", just = c("right", "center"), color = "black", size = 16, face = "bold")
 text.over <- text_grob("Adult", just = c("right", "center"), color = "black", size = 16, face = "bold")
 
+summary_df <- as.data.frame(nigeria_polygon_ad1$NAME_1)
+colnames(summary_df) <- c("NAME_1")
+
+spatial_dhs_adm1 <- st_intersection(spatial_nigeria_Sf, nigeria_polygon_ad1)
+
+spatial_dhs_adm1_filtered <- as.data.frame(spatial_dhs_adm1)%>%
+  dplyr::select(-geometry)%>%
+  filter(!is.na(DTP1))%>%
+  group_by(NAME_1)%>%
+  summarize(total_n = n(),
+            DTP_1_sum = sum(DTP1_1, na.rm = TRUE),
+            DTP_2_sum = sum(DTP2_1, na.rm = TRUE),
+            DTP_3_sum = sum(DTP3_1, na.rm = TRUE),
+            Measles_sum = sum(Measles_1, na.rm =TRUE))%>%
+  mutate(DTP1_coverage = DTP_1_sum/total_n)%>%
+  mutate(DTP2_coverage = DTP_2_sum/total_n)%>%
+  mutate(DTP3_coverage = DTP_3_sum/total_n)%>%
+  mutate(Measles_coverage = Measles_sum/total_n)
+
+summary_df$DTP1_coverage <- spatial_dhs_adm1_filtered$DTP1_coverage
+summary_df$DTP2_coverage <- spatial_dhs_adm1_filtered$DTP2_coverage
+summary_df$DTP3_coverage <- spatial_dhs_adm1_filtered$DTP3_coverage
+summary_df$Measles_coverage <- spatial_dhs_adm1_filtered$Measles_coverage
+
+
+coverage_prep <- overall_sero_total_sf_adm1_gather_type
+
+mea_0year_sero <- coverage_prep%>%
+  filter(Age == 0)
+
+mea_9year_sero <- coverage_prep%>%
+  filter(Age == 9)
+
+mea_4year_sero <- coverage_prep%>%
+  filter(Age == 4)
+
+rub_0year_sero <- coverage_prep%>%
+  filter(Age == 0)
+
+rub_9year_sero <- coverage_prep%>%
+  filter(Age == 9)
+
+rub_4year_sero <- coverage_prep%>%
+  filter(Age == 4)
+
+
+dip_0year_sero <- coverage_prep%>%
+  filter(Age == 0 & Antigen == "dip" & type_fit =="fit")
+
+dip_9year_sero <- coverage_prep%>%
+  filter(Age == 9 & Antigen == "dip" & type_fit =="fit")
+
+tet_0year_sero <- coverage_prep%>%
+  filter(Age == 0 & Antigen == "tet" & type_fit=="fit")
+
+summary_df$mea_0year <- mea_0year_sero$mean_sero
+summary_df$mea_9year <- mea_9year_sero$mean_sero
+summary_df$mea_4year <- mea_4year_sero$mean_sero
+summary_df$rub_0year <- rub_0year_sero$mean_sero
+summary_df$rub_9year <- rub_9year_sero$mean_sero
+summary_df$rub_4year <- rub_4year_sero$mean_sero
+summary_df$dip_0year <- dip_0year_sero$mean_sero
+summary_df$dip_9year <- dip_9year_sero$mean_sero
+summary_df$tet_0year <- tet_0year_sero$mean_sero
+summary_df$rub_foi <- vv$f_rubella
+summary_df$dip_foi <- vv$f_diphtheria
 save.image(file = "Intermediate/Figure_Packed_Prep.RData")

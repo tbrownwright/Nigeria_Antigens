@@ -1,0 +1,1 @@
+All generated Intermediate data objects will be placed in this folder

@@ -2,3 +2,7 @@
 CDC_Analysis.Rproj
 .RData
 .Rhistory
+!Figures/Placeholder.txt
+Figures/*
+Intermediate/*
+!Intermediate/Placeholder.txt

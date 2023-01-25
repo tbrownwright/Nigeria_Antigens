@@ -188,6 +188,8 @@ antigens_names <- c("Tetanus", "Rubella", "Measles", "Diphtheria")
 #Pop risk calculation for each antigen is different, hence the if statement for each antigen index i
 #Each age group generates an unique object per antigen
 
+colnames(XY) <- c("X", "Y")
+
 for(i in 1:length(antigens)){
   
   for(j in 1:6){
@@ -802,15 +804,13 @@ colnames(final_adm2) <- c("NAME_2", "age_group", "antigen", "weighted.sero", "we
 
 for (i in 1:length(antigens)){
   
-  temp_adm1_anti <- get(paste0(antigens[i], "_adm_1"))
+  #temp_adm1_anti <- get(paste0(antigens[i], "_adm_1"))
   
   temp_adm2_anti <- get(paste0(antigens[i], "_adm_2"))
   
-  final_adm1 <- rbind(final_adm1, temp_adm1_anti)%>%
-    filter(!is.na(NAME_1))
+  #final_adm1 <- rbind(final_adm1, temp_adm1_anti)%>%filter(!is.na(NAME_1))
   
-  final_adm2 <- rbind(final_adm2, temp_adm2_anti)%>%
-    filter(!is.na(NAME_2))
+  final_adm2 <- rbind(final_adm2, temp_adm2_anti)%>%filter(!is.na(NAME_2))
 }
 
 adm1_code <- nigeria_polygon_ad1%>%
@@ -839,7 +839,7 @@ adm2_colnames <- colnames(final_adm2)
 
 adm2_colnames <- adm2_colnames[5:14]
 
-final_adm2_wide <- tidyr::pivot_wider(final_adm2, id_cols = NAME_2, names_from = c(age_group, antigen), names_sep = "_", values_from = all_of(adm2_colnames), values_fn = length)
+final_adm2_wide <- tidyr::pivot_wider(final_adm2, id_cols = NAME_2, names_from = c(age_group, antigen), names_sep = "_", values_from = all_of(adm2_colnames), values_fn = mean)
 
 final_adm2_wide <- left_join(adm2_code, final_adm2_wide, by = "NAME_2")
 
@@ -1066,12 +1066,11 @@ colnames(final_children_adm2) <- c("NAME_2", "age_group", "antigen", "weighted.s
 
 for (i in 1:length(antigens_children)){
   
-  temp_adm1_anti <- get(paste0(antigens_children[i], "_children_adm_1"))
+  #temp_adm1_anti <- get(paste0(antigens_children[i], "_children_adm_1"))
   
   temp_adm2_anti <- get(paste0(antigens_children[i], "_children_adm_2"))
   
-  final_children_adm1 <- rbind(final_children_adm1, temp_adm1_anti)%>%
-    filter(!is.na(NAME_1))
+  #final_children_adm1 <- rbind(final_children_adm1, temp_adm1_anti)%>%filter(!is.na(NAME_1))
   
   final_children_adm2 <- rbind(final_children_adm2, temp_adm2_anti)%>%
     filter(!is.na(NAME_2))
@@ -1095,7 +1094,7 @@ adm2_colnames_children <- colnames(final_children_adm2)
 
 adm2_colnames_children <- adm2_colnames_children[5:11]
 
-final_children_adm2_wide <- tidyr::pivot_wider(final_children_adm2, id_cols = NAME_2, names_from = c(age_group, antigen), names_sep = "_", values_from = all_of(adm2_colnames_children), values_fn = length)
+final_children_adm2_wide <- tidyr::pivot_wider(final_children_adm2, id_cols = NAME_2, names_from = c(age_group, antigen), names_sep = "_", values_from = all_of(adm2_colnames_children), values_fn = mean)
 
 final_children_adm2_wide <- left_join(adm2_code, final_children_adm2_wide, by = "NAME_2")
 

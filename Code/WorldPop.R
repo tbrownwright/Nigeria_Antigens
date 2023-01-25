@@ -165,13 +165,9 @@ tiff_15_24_df <- as.data.frame(tiff_15_24_agg, xy= TRUE)
 
 tiff_15_24_complete <- tiff_15_24_df[complete.cases(tiff_15_24_df),]
 
-tiff_25_44 <- raster::overlay(tiff_25_29_raster, tiff_30_34_raster, tiff_35_39_raster, tiff_40_44_raster, fun = sum)
+tiff_25_44_complete <- tiff_25_29_complete
 
-tiff_25_44_agg <- raster::aggregate(tiff_25_44, fun = sum, fact = 100)
-
-tiff_25_44_df <- as.data.frame(tiff_25_44_agg, xy = TRUE)
-
-tiff_25_44_complete <- tiff_25_44_df[complete.cases(tiff_25_44_df),]
+tiff_25_44_complete$layer <- tiff_25_29_complete$nga_f_25_2020 + tiff_30_34_complete$nga_f_30_2020 + tiff_35_39_complete$nga_f_35_2020 + tiff_40_44_complete$nga_f_40_2020
 
 tiff_15_44_complete <- tiff_15_19_complete
 
@@ -301,6 +297,4 @@ tiff_35_39_complete <- tiff_35_39_complete%>%
 tiff_40_44_complete <- tiff_40_44_complete%>%
   mutate(uniqueID = paste(x, y, by = " "))
 
-
-save(tiff_0_4_complete, tiff_5_9_complete, tiff_10_14_complete, tiff_15_19_complete, tiff_20_24_complete, tiff_25_29_complete, 
-     tiff_30_34_complete, tiff_35_39_complete, tiff_40_44_complete, file = "Intermediate/WorldPop.RData")
+save.image(file = "Intermediate/WorldPop.RData")
