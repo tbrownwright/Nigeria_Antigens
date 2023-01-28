@@ -110,7 +110,8 @@ for(i in 1:length(antigens)){
   
   for(j in 1:length(unique(grd_total))){
     
-    temp <- add_column(get(grd_total[j]), fit=predict.gam(get(models_total[i]), newdata = get(grd_total[j]), se.fit = TRUE, type = "response")$fit, right_fit = predict.gam(get(models_total[i]), newdata = get(grd_total[j]), type = "response", se.fit = TRUE)$se.fit)
+    temp <- add_column(get(grd_total[j]), fit=predict.gam(get(models_total[i]), newdata = get(grd_total[j]), se.fit = TRUE, type = "response")$fit, 
+                       right_fit = predict.gam(get(models_total[i]), newdata = get(grd_total[j]), type = "response", se.fit = TRUE)$se.fit)
     temp_1 <- bind_cols(temp, setNames(as_tibble(predict.gam(get(models_total[i]), get(grd_total[j]), se.fit = TRUE)[1:2]), c('fit_link', 'se_link')))  
     temp_1 <- mutate(temp_1,
                      fit_response = get(ilink_total[i])(fit_link),

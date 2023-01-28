@@ -3,11 +3,6 @@
 if(!require("pacman")) install.packages("pacman")
 pacman::p_load(sf, dplyr, tidyr)
 
-
-library(sf)
-library(dplyr)
-library(tidyr)
-
 nigeria_polygon_ad1 <- read_sf("Data/ShapeFiles/NGA_adm1.shp")
 
 nigeria_adm2 <- read_sf("Data/ShapeFiles/NGA_adm2.shp")

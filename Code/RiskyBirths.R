@@ -168,14 +168,14 @@ household_WI <- HouseholdSAS$HV270A
 
 household_WI_raw <- HouseholdSAS$HV270
 
-nigeria_latest_birth <- nigeria.full%>%
-  mutate(motherAge=as.numeric(as.character(motherAge)))%>%
-  mutate(number_births = as.numeric(as.character(number_births)))
-
 nigeria.household.merge <- as.data.frame(cbind(household_cluster, household_number, household_linenumber, household_WI, household_WI_raw))%>%
   mutate(uniqueID = paste0("C", household_cluster, "H", household_number, "R", household_linenumber))
 
 #Join with Household Data
+
+nigeria_latest_birth <- nigeria.full%>%
+  mutate(motherAge=as.numeric(as.character(motherAge)))%>%
+  mutate(number_births = as.numeric(as.character(number_births)))
 
 nigeria_latest_birth_WI <- nigeria_latest_birth%>%
   left_join(nigeria.household.merge, by = "uniqueID")

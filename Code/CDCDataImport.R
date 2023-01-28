@@ -24,8 +24,7 @@ child_geo_sum <- Child_geo%>%
   mutate(TetSeroPercentage = TetSero/ageCount)%>%
   mutate(RubSeroPercentage = RubSero/ageCount)%>%
   mutate(MeaSeroPercentage = MeaSero/ageCount)%>%
-  mutate(DipSeroPercentage = DipSero/ageCount)%>%
-  mutate(age_under25 = ifelse(Age <25 , 0, 1))
+  mutate(DipSeroPercentage = DipSero/ageCount)
 
 #Mother data Import
 
@@ -48,13 +47,9 @@ mother_geo_sum <- mother_geo%>%
   mutate(RubSeroPercentage = RubSero/ageCount)%>%
   mutate(MeaSeroPercentage = MeaSero/ageCount)%>%
   mutate(DipSeroPercentage = DipSero/ageCount)%>%
-  mutate(age_group = ifelse(Age < 20, 1, ifelse(Age >19 & Age < 25, 2, ifelse(Age >24 & Age < 30, 3, ifelse(Age > 29 & Age <35, 4, ifelse(Age > 34 & Age < 40, 5, ifelse(Age> 39 & Age < 45, 6, 7)))))))%>%
   mutate(age_under25 = ifelse(Age <25 , 0, 1))
 
-mother_geo_sum_1 <- mother_geo_sum%>%
-  dplyr::select(-age_group)
-
-total_age_df <- rbind(child_geo_sum, mother_geo_sum_1)
+total_age_df <- rbind(child_geo_sum, mother_geo_sum)
 
 LATLONG <- stringr::str_split(total_age_df$uniqueGeo, boundary("word"))
 

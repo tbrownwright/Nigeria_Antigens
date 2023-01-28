@@ -29,7 +29,8 @@ births <- reshape::melt(individual_SAS_sm1, id = c("id", "V001", "V002", "V003",
   dplyr::select(id, uniqueID, agegroup, V001, V002, V005, V003, V021, V022)%>%
   mutate(birth =1, exposure=0)
 
-individual_SAS_sm2 <- individual_SAS %>% dplyr::select(id, V001, V002, V003, V008, V011, V005, V021, V022)
+individual_SAS_sm2 <- individual_SAS %>% 
+  dplyr::select(id, V001, V002, V003, V008, V011, V005, V021, V022)
 
 individual_SAS_sm2 <- as.data.frame(individual_SAS_sm2)%>%
   mutate(uniqueID = paste0("C", V001, "H", V002, "R", V003))
@@ -40,7 +41,7 @@ exposure.tmp <- individual_SAS_sm2 %>%
          exposure = survey_age - (agegroup*60)+1, #exposure (number of months) 
          upper_exposure = ifelse(exposure >= 36, 36, exposure), #upper age exposure
          lower_exposure = ifelse(exposure < 36 & agegroup >=4, 36-exposure, 0)) %>% #lower age exposure
-  filter(agegroup > 2) %>% #limit to ages 15-49
+  filter(agegroup > 2)%>% #limit to ages 15-49
   dplyr::select(-V008, -V011, -survey_age) 
 
 upper.exposure <- exposure.tmp %>% 
@@ -108,7 +109,7 @@ df3_mat <- cbind(df2_mat, coordinates(df2_mat))
 
 proj4string(df3_mat) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
 
-gam_mat <- gam(data = df3_mat, asfr ~ s(X, Y) + as.factor(agegroup) + as.factor(agegroup) * (X+ Y), finaly = binomial(logit))
+gam_mat <- gam(data = df3_mat, asfr ~ s(X, Y) + as.factor(agegroup) + as.factor(agegroup) * (X+ Y), family = binomial(logit))
 
 grd_mat_3 <- tiff_10_14_complete[,1:2]
 grd_mat_3$agegroup <- 3

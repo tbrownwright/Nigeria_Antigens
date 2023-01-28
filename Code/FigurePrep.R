@@ -217,11 +217,12 @@ for(i in 1:length(antigens)){
         temp_plot <- ggplot()+
           geom_tile(data = temp_df_XY, aes(x = X, y = Y, fill = temp_rowmeans), alpha = 0.9)+
           geom_polygon(data = nigeria_polygon_sp, aes(x=long, y=lat, z=group), colour="gray40", fill=NA, cex=0.25)+
+          geom_sf(data = nigeria_polygon_ad1, fill = NA)+
           scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, \n", age_ranges[j*2-1], "-", age_ranges[j*2], " Age Old"),
                                colours = terrain.colors(5),
                                limits = c(0.15, 1),
                                na.value = "white")+
-          coord_fixed() + 
+          coord_sf() + 
           #ggtitle(paste0(age_ranges[j*2-1], "-", age_ranges[j*2] -1, " years"))+
           theme(axis.line=element_blank(),
                 axis.text.x=element_blank(),
@@ -253,11 +254,12 @@ for(i in 1:length(antigens)){
           temp_plot <- ggplot()+
             geom_tile(data = temp_df_XY, aes(x = X, y = Y, fill = temp_rowmeans), alpha = 0.9)+
             geom_polygon(data = nigeria_polygon_sp, aes(x=long, y=lat, z=group), colour="gray40", fill=NA, cex=0.25)+
+            geom_sf(data = nigeria_polygon_ad1, fill = NA)+
             scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, \n", age_ranges[j*2-1], "-", age_ranges[j*2], "Age Old"),
                                  colours = terrain.colors(5),
                                  limits = c(0.15, 1),
                                  na.value = "white")+
-            coord_fixed() + 
+            coord_sf() + 
             theme(axis.line=element_blank(),
                   axis.text.x=element_blank(),
                   axis.text.y=element_blank(),
@@ -286,11 +288,12 @@ for(i in 1:length(antigens)){
           temp_plot <- ggplot()+
             geom_tile(data = temp_df_XY, aes(x = X, y = Y, fill = temp_rowmeans), alpha = 0.9)+
             geom_polygon(data = nigeria_polygon_sp, aes(x=long, y=lat, z=group), colour="gray40", fill=NA, cex=0.25)+
+            geom_sf(data = nigeria_polygon_ad1, fill = NA)+
             scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, \n", age_ranges[j*2-1], "-", age_ranges[j*2], "Age Old"),
                                  colours = terrain.colors(5),
                                  limits = c(0.15, 1),
                                  na.value = "white")+
-            coord_fixed() + 
+            coord_sf() + 
             theme(axis.line=element_blank(),
                   axis.text.x=element_blank(),
                   axis.text.y=element_blank(),
@@ -322,11 +325,12 @@ for(i in 1:length(antigens)){
         temp_plot <- ggplot()+
           geom_tile(data = temp_df_XY, aes(x = X, y = Y, fill = temp_rowmeans), alpha = 0.9)+
           geom_polygon(data = nigeria_polygon_sp, aes(x=long, y=lat, z=group), colour="gray40", fill=NA, cex=0.25)+
+          geom_sf(data = nigeria_polygon_ad1, fill = NA)+
           scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, \n", age_ranges[j*2-1], "-", age_ranges[j*2], " Age Old"),
                                colours = terrain.colors(5),
                                limits = c(0.15, 1),
                                na.value = "white")+
-          coord_fixed() + 
+          coord_sf() + 
           theme(axis.line=element_blank(),
                 axis.text.x=element_blank(),
                 axis.text.y=element_blank(),
@@ -357,11 +361,12 @@ for(i in 1:length(antigens)){
           temp_plot <- ggplot()+
             geom_tile(data = temp_df_XY, aes(x = X, y = Y, fill = temp_rowmeans), alpha = 0.9)+
             geom_polygon(data = nigeria_polygon_sp, aes(x=long, y=lat, z=group), colour="gray40", fill=NA, cex=0.25)+
+            geom_sf(data = nigeria_polygon_ad1, fill = NA)+
             scale_fill_gradientn(name =paste0(antigens_names[i]," Seroprevalence %, \n", age_ranges[j*2-1], "-", age_ranges[j*2], " Age Old"),
                                  colours = terrain.colors(5),
                                  limits = c(0.15, 1),
                                  na.value = "white")+
-            coord_fixed() + 
+            coord_sf() + 
             theme(axis.line=element_blank(),
                   axis.text.x=element_blank(),
                   axis.text.y=element_blank(),
